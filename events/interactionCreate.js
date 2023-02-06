@@ -1,11 +1,23 @@
 /* eslint-disable no-empty */
-const { Events } = require('discord.js');
+const { Events, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
+
 
 module.exports = {
 	name: Events.InteractionCreate,
 	async execute(interaction) {
-		if (interaction.isChatInputCommand()) {
+		if (interaction.isChatInputCommand()) return;
 
+
+		if (interaction.commandName === 'button') {
+			const row = new ActionRowBuilder()
+				.addComponents(
+					new ButtonBuilder()
+						.setCustomId('primary')
+						.setLabel('Click me!')
+						.setStyle(ButtonStyle.Primary),
+				);
+
+			await interaction.reply({ content: 'I think you should,', components: [row] });
 		}
 		else if (interaction.isAutocomplete) {
 
